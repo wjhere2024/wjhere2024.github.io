@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+<meta charset=UTF-8">
+  <title>学生姓名选择器</title>
+  <style>
+    body {
+      font-family: 'Arial', 'Microsoft YaHei', '黑体', '宋体', sans-serif; /* 增加中文字体支持 */
+      margin: 20px;
+      background-color: #f0f8ff;
+      color: #333;
+    }
+
+    h1 {
+      color: #333399;
+    }
+
+   .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      background: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+   .student-input,
+   .copy-feedback { /* 添加复制反馈样式 */
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+   .copy-feedback { /* 设置复制反馈区域样式 */
+      background-color: #d4edda;
+      color: #155724;
+      border-color: #c3e6cb;
+      display: none; /* 初始状态不显示 */
+      margin-top: 0; /* 将反馈信息区域移到按钮后面 */
+      text-align: center;
+    }
+
+   .button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background-color: #5f9ea0;
+      color: white;
+      font-size: 14px;
+    }
+
+   .button:hover {
+      background-color: #4682b4;
+    }
+
+   .student-list,
+   .unselected-students {
+      display: flex;
+      flex-wrap: wrap;
+      list-style-type: none;
+      padding: 0;
+    }
+
+   .student-list li,
+   .unselected-students li {
+      padding: 5px;
+      border: 1px solid #eee;
+      margin: 5px;
+      border-radius: 4px;
+    }
+
+   .selected-students,
+   .unselected-students-container {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border: 1px dashed #ccc;
+    }
+
+   .info-text {
+      margin-bottom: 5px;
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>学生姓名选择器</h1>
+    <p class="info-text">请输入或粘贴姓名，多选文本框内输入姓名支持换行符、逗号、空格等隔开。</p>
+    <textarea id="student-input" class="student-input" rows="10" placeholder="请输入学生姓名"></textarea><br>
+    <button onclick="generateList()" class="button">生成列表</button>
+    <button onclick="clearSelection()" class="button">清除选择</button>
+    <button onclick="copySelected()" class="button">复制选择的姓名</button>
+    <button onclick="copyUnselected()" class="button">复制未选择的姓名</button>
+    <ul id="student-list" class="student-list"></ul>
+
+    <div class="selected-students">您选择的姓名：<span id="selected-students"></span></div>
+    <div class="unselected-students-container">未选择的姓名：
+      <ul id="unselected-students" class="unselected-students"></ul>
+    </div>
+
+    <div id="copy-feedback" class="copy-feedback"></div>
+  </div>
+
+  <script>
+    function generateList() {
+      var input = document.getElementById('student-input').value;
+      var students = input.split(/\n|,|\s+/).filter(Boolean).sort(function (a, b) {
+        return a.localeCompare(b, 'zh');
+      });
+      var list = document.getElementById('student-list');
+      list.innerHTML = '';
+      students.forEach(function (student, index) {
+        var li = document.createElement('li');
+        var checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = 'student-' + index;
+        checkbox.value = student;
+        checkbox.onchange = function () { updateSelected(); };
+        var label = document.createElement('label');
+        label.htmlFor = 'student-' + index;
+        label.appendChild(document.createTextNode(student));
+        li.appendChild(checkbox);
+        li.appendChild(label);
+        list.appendChild(li);
+      });
+      updateSelected(); // 更新选择状态
+      localStorage.setItem('students', input);
+    }
+
+    function updateSelected() {
+      var checkboxes = document.querySelectorAll('#student-list input[type="checkbox"]');
+      var selectedStudents = [];
+      var unselectedStudents = [];
+      Array.from(checkboxes).forEach(function (checkbox) {
+        if (checkbox.checked) {
+          selectedStudents.push(checkbox.value);
+        } else {
+          unselectedStudents.push(checkbox.value);
+        }
+      });
+      document.getElementById('selected-students').textContent = selectedStudents.join(', ');
+      updateUnselected(unselectedStudents);
+    }
+
+    function updateUnselected(unselected) {
+      var unselectedList = document.getElementById('unselected-students');
+      unselectedList.innerHTML = '';
+      unselected.forEach(function (student) {
+        var li = document.createElement('li');
+        li.textContent = student;
+        unselectedList.appendChild(li);
+      });
+    }
+
+    function clearSelection() {
+      document.querySelectorAll('#student-list input[type="checkbox"]').forEach(function (checkbox) {
+        checkbox.checked = false;
+      });
+      updateSelected();
+    }
+
+    function copySelected() {
+      var selectedText = document.getElementById('selected-students').textContent;
+      navigator.clipboard.writeText(selectedText).then(function () {
+        showFeedback('已复制选择的姓名');
+      }, function (err) {
+        console.error('复制失败:', err);
+      });
+    }
+
+    function copyUnselected() {
+      var unselectedText = Array.from(document.querySelectorAll('#unselected-students li')).map(function (li) {
+        return li.textContent;
+      }).join(', ');
+      navigator.clipboard.writeText(unselectedText).then(function () {
+        showFeedback('已复制未选择的姓名');
+      }, function (err) {
+        console.error('复制失败:', err);
+      });
+    }
+
+    function showFeedback(message) {
+      var feedback = document.getElementById('copy-feedback');
+      feedback.textContent = message;
+      feedback.style.display = 'block';
+      setTimeout(function () {
+        feedback.style.display = 'none';
+      }, 3000); // 3 秒后自动隐藏提示信息
+    }
+
+    window.onload = function () {
+      var storedStudents = localStorage.getItem('students');
+      if (storedStudents) {
+        document.getElementById('student-input').value = storedStudents;
+        generateList();
+      }
+    }
+  </script>
+</body>
+
+</html>
