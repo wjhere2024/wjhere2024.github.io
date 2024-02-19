@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>å­¦ç”Ÿå§“åé€‰æ‹©å™¨</title>
+    <title>Ñ§ÉúĞÕÃûÑ¡ÔñÆ÷</title>
     <style>
         body {
-            font-family: 'Arial', 'Microsoft YaHei', 'é»‘ä½“', 'å®‹ä½“', sans-serif;
+            font-family: 'Arial', 'Microsoft YaHei', 'ºÚÌå', 'ËÎÌå', sans-serif;
             margin: 20px;
             background-color: #f0f8ff;
             color: #333;
@@ -21,7 +21,7 @@
             background: #fff;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        /* å…è®¸ç”¨æˆ·é€‰æ‹©çš„æ ·å¼ */
+        /* ÔÊĞíÓÃ»§Ñ¡ÔñµÄÑùÊ½ */
         [data-selectable] {
             -webkit-user-select: text;
             user-select: text;
@@ -33,7 +33,7 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
-            display: none; /* åˆå§‹ä¸æ˜¾ç¤ºï¼Œé€šè¿‡æŒ‰é’®æ§åˆ¶ */
+            display: none; /* ³õÊ¼²»ÏÔÊ¾£¬Í¨¹ı°´Å¥¿ØÖÆ */
         }
         .button {
             padding: 10px 20px;
@@ -82,16 +82,16 @@
 </head>
 <body>
 <div class="container">
-    <h1>å­¦ç”Ÿå§“åé€‰æ‹©å™¨</h1>
+    <h1>Ñ§ÉúĞÕÃûÑ¡ÔñÆ÷</h1>
     <div id="copy-feedback" class="copy-feedback"></div>
-    <button id="toggle-input" onclick="toggleInput()" class="button">è¾“å…¥å§“å</button>
-    <textarea id="student-input" class="student-input" rows="10" placeholder="è¯·è¾“å…¥å­¦ç”Ÿå§“å"></textarea>
-    <button onclick="clearSelection()" class="button">æ¸…é™¤é€‰æ‹©</button>
-    <button onclick="copySelected()" class="button">å¤åˆ¶å·²é€‰</button>
-    <button onclick="copyUnselected()" class="button">å¤åˆ¶æœªé€‰</button>
+    <button id="toggle-input" onclick="toggleInput()" class="button">ÊäÈëĞÕÃû</button>
+    <textarea id="student-input" class="student-input" rows="10" placeholder="ÇëÊäÈëÑ§ÉúĞÕÃû"></textarea>
+    <button onclick="clearSelection()" class="button">Çå³ıÑ¡Ôñ</button>
+    <button onclick="copySelected()" class="button">¸´ÖÆÒÑÑ¡</button>
+    <button onclick="copyUnselected()" class="button">¸´ÖÆÎ´Ñ¡</button>
     <ul id="student-list" class="student-list"></ul>
-    <div class="selected-students">æ‚¨é€‰æ‹©çš„å§“åï¼š<span id="selected-students" data-selectable="true" onclick="selectText(this.id)"></span></div>
-    <div class="unselected-students-container">æœªé€‰æ‹©çš„å§“åï¼š<ul id="unselected-students" class="unselected-students" data-selectable="true" onclick="selectText(this.id)"></ul></div>
+    <div class="selected-students">ÄúÑ¡ÔñµÄĞÕÃû£º<span id="selected-students" data-selectable="true" onclick="selectText(this.id)"></span></div>
+    <div class="unselected-students-container">Î´Ñ¡ÔñµÄĞÕÃû£º<ul id="unselected-students" class="unselected-students" data-selectable="true" onclick="selectText(this.id)"></ul></div>
 </div>
 <script>
     function toggleInput() {
@@ -99,11 +99,11 @@
         var button = document.getElementById('toggle-input');
         if (input.style.display === 'none' || input.style.display === '') {
             input.style.display = 'block';
-            button.textContent = 'ç”Ÿæˆåˆ—è¡¨';
+            button.textContent = 'Éú³ÉÁĞ±í';
         } else {
             input.style.display = 'none';
-            button.textContent = 'è¾“å…¥å§“å';
-            generateList(); // ç‚¹å‡»ç”Ÿæˆåˆ—è¡¨æ—¶è°ƒç”¨
+            button.textContent = 'ÊäÈëĞÕÃû';
+            generateList(); // µã»÷Éú³ÉÁĞ±íÊ±µ÷ÓÃ
         }
     }
     function generateList() {
@@ -114,7 +114,7 @@
         var list = document.getElementById('student-list');
         var unselectedList = document.getElementById('unselected-students');
         list.innerHTML = '';
-        unselectedList.innerHTML = ''; // æ¸…é™¤æœªé€‰æ‹©åˆ—è¡¨
+        unselectedList.innerHTML = ''; // Çå³ıÎ´Ñ¡ÔñÁĞ±í
         students.forEach(function (student, index) {
             var li = document.createElement('li');
             var checkbox = document.createElement('input');
@@ -129,7 +129,7 @@
             li.appendChild(label);
             list.appendChild(li);
         });
-        updateSelected(); // æ›´æ–°é€‰æ‹©çŠ¶æ€
+        updateSelected(); // ¸üĞÂÑ¡Ôñ×´Ì¬
         localStorage.setItem('students', input);
     }
     function updateSelected() {
@@ -145,7 +145,7 @@
         });
         document.getElementById('selected-students').textContent = selectedStudents.join(', ');
         var unselectedList = document.getElementById('unselected-students');
-        unselectedList.innerHTML = ''; // æ¸…ç©ºæœªé€‰æ‹©åˆ—è¡¨
+        unselectedList.innerHTML = ''; // Çå¿ÕÎ´Ñ¡ÔñÁĞ±í
         unselectedStudents.forEach(function(student) {
             var li = document.createElement('li');
             li.textContent = student;
@@ -156,18 +156,18 @@
         document.querySelectorAll('#student-list input[type="checkbox"]').forEach(checkbox => {
             checkbox.checked = false;
         });
-        updateSelected(); // æ¸…é™¤é€‰æ‹©åæ›´æ–°æ˜¾ç¤º
+        updateSelected(); // Çå³ıÑ¡Ôñºó¸üĞÂÏÔÊ¾
     }
     function copyText(text) {
         if (navigator.clipboard && window.isSecureContext) {
-            // ä½¿ç”¨navigator.clipboard API
+            // Ê¹ÓÃnavigator.clipboard API
             navigator.clipboard.writeText(text).then(function() {
-                showFeedback('å¤åˆ¶æˆåŠŸ');
+                showFeedback('¸´ÖÆ³É¹¦');
             }, function(err) {
-                showFeedback('å¤åˆ¶å¤±è´¥ï¼Œè¯·å°è¯•æ‰‹åŠ¨å¤åˆ¶');
+                showFeedback('¸´ÖÆÊ§°Ü£¬Çë³¢ÊÔÊÖ¶¯¸´ÖÆ');
             });
         } else {
-            // å¤‡ç”¨å¤åˆ¶æ–¹æ³•
+            // ±¸ÓÃ¸´ÖÆ·½·¨
             var textArea = document.createElement("textarea");
             textArea.value = text;
             document.body.appendChild(textArea);
@@ -175,10 +175,10 @@
             textArea.select();
             try {
                 var successful = document.execCommand('copy');
-                var msg = successful ? 'å¤åˆ¶æˆåŠŸ' : 'å¤åˆ¶å¤±è´¥ï¼Œè¯·å°è¯•æ‰‹åŠ¨å¤åˆ¶';
+                var msg = successful ? '¸´ÖÆ³É¹¦' : '¸´ÖÆÊ§°Ü£¬Çë³¢ÊÔÊÖ¶¯¸´ÖÆ';
                 showFeedback(msg);
             } catch (err) {
-                showFeedback('å¤åˆ¶å¤±è´¥ï¼Œè¯·å°è¯•æ‰‹åŠ¨å¤åˆ¶');
+                showFeedback('¸´ÖÆÊ§°Ü£¬Çë³¢ÊÔÊÖ¶¯¸´ÖÆ');
             }
             document.body.removeChild(textArea);
         }
@@ -197,7 +197,7 @@
         feedback.style.display = 'block';
         setTimeout(function() {
             feedback.style.display = 'none';
-        }, 3000); // 3ç§’åè‡ªåŠ¨éšè—æç¤ºä¿¡æ¯
+        }, 3000); // 3Ãëºó×Ô¶¯Òş²ØÌáÊ¾ĞÅÏ¢
     }
     function selectText(id) {
         var element = document.getElementById(id);
@@ -221,7 +221,7 @@
         var storedStudents = localStorage.getItem('students');
         if (storedStudents) {
             document.getElementById('student-input').value = storedStudents;
-            // é¡µé¢åŠ è½½æ—¶ä¸è‡ªåŠ¨ç”Ÿæˆåˆ—è¡¨ï¼Œä¿ç•™ç»™ç”¨æˆ·ç‚¹å‡»æŒ‰é’®æ—¶å†³å®š
+            // Ò³Ãæ¼ÓÔØÊ±²»×Ô¶¯Éú³ÉÁĞ±í£¬±£Áô¸øÓÃ»§µã»÷°´Å¥Ê±¾ö¶¨
         }
     }
 </script>
